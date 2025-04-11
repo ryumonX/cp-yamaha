@@ -7,7 +7,7 @@ const dropdownMenus = [
   { id: 1, name: 'Produk', targetId: 'produk' },
   { id: 2, name: 'Artikel', targetId: 'artikel' },
   { id: 3, name: 'Event', targetId: 'event' },
-  { id: 4, name: 'Galeri Foto', targetId: 'gallry' },
+  { id: 4, name: 'Galeri Foto', targetId: 'gallery' },
   { id: 5, name: 'Klien Kami', targetId: 'our-client' },
 ];
 
