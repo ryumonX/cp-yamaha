@@ -6,25 +6,34 @@ type FAQItem = {
   answer: string;
 };
 
-const faqList: FAQItem[] = [
+  const faqList: FAQItem[] = [
     {
-        question: 'Apa itu layanan kami?', // Pastikan data ada di sini
-        answer: 'Kami menyediakan solusi digital seperti pembuatan website, aplikasi mobile, dan sistem informasi berbasis cloud.',
-      },
-      {
-        question: 'Bagaimana cara memulai proyek dengan kami?',
-        answer: 'Anda bisa menghubungi kami melalui halaman kontak dan menjelaskan kebutuhan Anda. Kami akan segera menghubungi Anda kembali.',
-      },
-      {
-        question: 'Apakah ada garansi untuk layanan kami?',
-        answer: 'Ya, kami memberikan garansi dukungan dan perbaikan untuk setiap layanan yang kami tawarkan sesuai perjanjian awal.',
-      },
-      {
-        question: 'Apakah kami melayani di luar kota?',
-        answer: 'Tentu saja! Kami melayani klien dari seluruh Indonesia, baik secara daring maupun kunjungan langsung jika diperlukan.',
-      },
-    ];
-
+      question: 'Apa itu komunitas motor Yamaha ini?',
+      answer:
+        'Kami adalah komunitas penggemar motor Yamaha yang aktif dalam berbagai kegiatan touring, kopdar, dan aksi sosial. Kami menjunjung tinggi persaudaraan dan keselamatan berkendara.',
+    },
+    {
+      question: 'Siapa saja yang bisa bergabung?',
+      answer:
+        'Siapa pun yang memiliki motor Yamaha dan semangat kebersamaan dapat bergabung dengan komunitas kami. Tidak ada batasan usia maupun jenis motor Yamaha.',
+    },
+    {
+      question: 'Apakah ada biaya untuk menjadi anggota?',
+      answer:
+        'Untuk bergabung sebagai anggota resmi, ada biaya pendaftaran dan iuran rutin yang digunakan untuk mendukung kegiatan komunitas. Besarannya transparan dan dibahas bersama.',
+    },
+    {
+      question: 'Kegiatan apa saja yang rutin dilakukan?',
+      answer:
+        'Kami rutin mengadakan kopdar, touring ke berbagai kota, pelatihan safety riding, hingga kegiatan sosial seperti bakti lingkungan dan donasi ke panti asuhan.',
+    },
+    {
+      question: 'Apakah saya harus ikut semua kegiatan?',
+      answer:
+        'Tidak harus. Anggota bebas memilih kegiatan yang ingin diikuti. Kami memahami bahwa setiap orang punya kesibukan masing-masing.',
+    },
+  ];
+  
 const FAQ: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 

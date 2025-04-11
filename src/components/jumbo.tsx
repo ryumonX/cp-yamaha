@@ -52,7 +52,7 @@ const Page = ({ index, gradient, onClick }: PageProps) => (
   </div>
 )
 
-export default function App() {
+export default function Parallaxslider() {
   const [page, setPage] = useState(0)
   const [direction, setDirection] = useState(0)
   const [isExiting, setIsExiting] = useState(false)
@@ -79,7 +79,7 @@ export default function App() {
           initial="enter"
           animate="center"
           exit="exit"
-          className={styles.motionWrapper}
+          className={styles.motionWrParallaxsliderer}
           data-is-exiting={isExiting}
         >
           <Page

@@ -1,14 +1,14 @@
 'use client';
 
-import { section } from 'framer-motion/client';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 type Event = {
   id: number;
   title: string;
   description: string;
   image: string;
-  date: string; // Format ISO date string (YYYY-MM-DD)
+  date: string;
 };
 
 const events: Event[] = [
@@ -42,36 +42,50 @@ const events: Event[] = [
   },
 ];
 
+// Komponen Kartu Event
+const EventCard: React.FC<{ event: Event }> = ({ event }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/event/${event.id}`);
+  };
+
+  const formattedDate = new Date(event.date).toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
+  return (
+    <div
+      onClick={handleClick}
+      className="cursor-pointer bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition duration-300"
+    >
+      <img
+        src={event.image}
+        alt={event.title}
+        className="w-full h-48 object-cover"
+      />
+      <div className="p-4 bg-blue-500">
+        <h2 className="text-xl font-bold mb-2 text-white">{event.title}</h2>
+        <p className="text-white mb-4">{event.description}</p>
+        <p className="text-white font-medium">{formattedDate}</p>
+      </div>
+    </div>
+  );
+};
+
+// Komponen Utama
 const EventPage: React.FC = () => {
   return (
-    
-    <section id='event' className="max-w-6xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-center text-black mb-10">Upcoming Events</h1>
+    <section id="event" className="max-w-6xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold text-center text-black mb-10">
+        Upcoming Events
+      </h1>
 
-      {/* Grid Event */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {events.map((event) => (
-          <div
-            key={event.id}
-            className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition duration-300"
-          >
-            <img
-              src={event.image}
-              alt={event.title}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h2 className="text-xl font-bold mb-2 text-gray-800">{event.title}</h2>
-              <p className="text-gray-600 mb-4">{event.description}</p>
-              <p className="text-gray-500 font-medium">
-                {new Date(event.date).toLocaleDateString('id-ID', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric'
-                })}
-              </p>
-            </div>
-          </div>
+          <EventCard key={event.id} event={event} />
         ))}
       </div>
     </section>
