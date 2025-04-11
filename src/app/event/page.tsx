@@ -59,17 +59,17 @@ const EventCard: React.FC<{ event: Event }> = ({ event }) => {
   return (
     <div
       onClick={handleClick}
-      className="cursor-pointer bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition duration-300"
+      className="cursor-pointer bg-gray-800 bg-opacity-90 shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition duration-300"
     >
       <img
         src={event.image}
         alt={event.title}
         className="w-full h-48 object-cover"
       />
-      <div className="p-4 bg-blue-500">
-        <h2 className="text-xl font-bold mb-2 text-white">{event.title}</h2>
-        <p className="text-white mb-4">{event.description}</p>
-        <p className="text-white font-medium">{formattedDate}</p>
+      <div className="p-4 text-white">
+        <h2 className="text-xl font-bold mb-2">{event.title}</h2>
+        <p className="text-gray-300 mb-3">{event.description}</p>
+        <p className="font-medium text-red-400">{formattedDate}</p>
       </div>
     </div>
   );
@@ -78,8 +78,8 @@ const EventCard: React.FC<{ event: Event }> = ({ event }) => {
 // Komponen Utama
 const EventPage: React.FC = () => {
   return (
-    <section id="event" className="max-w-6xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-center text-black mb-10">
+    <section id="event" className="bg-white min-h-screen max-w-6xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">
         Upcoming Events
       </h1>
 

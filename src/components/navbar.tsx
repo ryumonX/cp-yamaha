@@ -21,7 +21,7 @@ const otherMenus = [
 const Navbar = () => {
   const router = useRouter();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // untuk home dropdown
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -32,14 +32,15 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white text-black shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div className="text-2xl font-bold text-blue-600">CompanyName</div>
+        <div className="text-2xl font-bold text-black">
+        <img src="/resource/logo.png" alt="Logo" className="h-15 w-auto" />
+        </div>
 
-        {/* Mobile toggle */}
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="md:hidden text-gray-700 text-xl"
+          className="md:hidden text-black text-xl"
         >
           ☰
         </button>
@@ -49,7 +50,7 @@ const Navbar = () => {
           <li className="relative group">
             <button
               onClick={handleHomeClick}
-              className="text-gray-700 hover:text-blue-500 transition"
+              className="text-black hover:text-red-500 transition"
             >
               Home ▼
             </button>
@@ -58,7 +59,7 @@ const Navbar = () => {
                 <li key={item.id}>
                   <a
                     href={`#${item.targetId}`}
-                    className="block px-3 py-1 text-gray-700 hover:bg-blue-100 rounded"
+                    className="block px-3 py-1 text-black hover:bg-red-100 hover:text-red-600 rounded"
                   >
                     {item.name}
                   </a>
@@ -71,7 +72,7 @@ const Navbar = () => {
             <li key={item.id}>
               <a
                 href={`#${item.targetId}`}
-                className="text-gray-700 hover:text-blue-500 transition"
+                className="text-black hover:text-red-500 transition"
               >
                 {item.name}
               </a>
@@ -80,13 +81,13 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* Mobile Menu - Accordion Style */}
+      {/* Mobile Menu */}
       {isMobileOpen && (
-        <ul className="md:hidden px-4 pb-4 space-y-2">
+        <ul className="md:hidden px-4 pb-4 space-y-2 bg-white text-black">
           <li>
             <button
               onClick={toggleDropdown}
-              className="flex justify-between w-full font-semibold text-gray-600"
+              className="flex justify-between w-full font-semibold"
             >
               <span>Home</span>
               <span>{isDropdownOpen ? '▲' : '▼'}</span>
@@ -98,7 +99,7 @@ const Navbar = () => {
                   <li key={item.id}>
                     <a
                       href={`#${item.targetId}`}
-                      className="block text-gray-700 hover:text-blue-500 transition"
+                      className="block hover:text-red-500 transition"
                       onClick={() => setIsMobileOpen(false)}
                     >
                       {item.name}
@@ -113,7 +114,7 @@ const Navbar = () => {
             <li key={item.id}>
               <a
                 href={`#${item.targetId}`}
-                className="block text-gray-700 hover:text-blue-500 transition"
+                className="block hover:text-red-500 transition"
                 onClick={() => setIsMobileOpen(false)}
               >
                 {item.name}

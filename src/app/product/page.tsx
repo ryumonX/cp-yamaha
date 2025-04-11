@@ -53,8 +53,8 @@ const Product: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 text-white">
-      <h1 className="text-3xl font-bold text-center text-black mb-10">Our Products</h1>
+    <div className="max-w-7xl mx-auto px-4 py-10 bg-white">
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">Our Products</h1>
 
       {/* Grid 4 kotak */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
@@ -62,7 +62,7 @@ const Product: React.FC = () => {
           <div
             key={product.id}
             onClick={() => handleDetail(product.id)}
-            className="cursor-pointer transform skew-x-[-6deg] bg-blue-600 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition duration-300"
+            className="cursor-pointer transform skew-x-[-6deg] bg-gray-800 bg-opacity-90 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition duration-300"
           >
             <div className="transform skew-x-[6deg]">
               <img
@@ -71,9 +71,9 @@ const Product: React.FC = () => {
                 className="w-full h-40 object-cover"
               />
               <div className="p-4">
-                <h2 className="text-xl font-bold mb-2">{product.name}</h2>
-                <p className="text-blue-100 mb-4">{product.description}</p>
-                <p className="font-semibold text-lg">
+                <h2 className="text-xl font-bold text-white mb-2">{product.name}</h2>
+                <p className="text-gray-300 mb-4">{product.description}</p>
+                <p className="font-semibold text-red-400 text-lg">
                   Rp {product.price.toLocaleString('id-ID')}
                 </p>
               </div>
@@ -86,9 +86,9 @@ const Product: React.FC = () => {
       <div className="text-center">
         <button
           onClick={handleNavigate}
-          className="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-3 rounded-xl shadow-md transition duration-300"
+          className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-xl shadow-md transition duration-300"
         >
-          Other Products
+          Produk Lainnya
         </button>
       </div>
     </div>
