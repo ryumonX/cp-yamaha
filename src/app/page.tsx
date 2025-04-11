@@ -1,5 +1,6 @@
+'use client'
 import Navbar from "@/components/navbar";
-import ParallaxSlider from "@/components/jumbo";
+import Jumbotron from "@/components/jumbo";
 import AboutUs from "./about_us/page";
 import VisiMisi from "./visi-misi/page";
 import Ourclient from "./client/page";
@@ -15,7 +16,7 @@ export default function Home() {
     <div id="#home">
       <Navbar />
       <main>
-        <ParallaxSlider />
+        <Jumbotron />
         
         <FadeUpSection>
           <AboutUs />

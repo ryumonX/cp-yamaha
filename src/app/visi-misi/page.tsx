@@ -43,7 +43,7 @@ const VisiMisi: React.FC = () => {
             {misiList.map((misi, index) => (
               <motion.div
                 key={index}
-                className="group flex bg-white rounded-xl shadow-md p-6 w-full sm:w-[48%] lg:w-[32%] items-start gap-4 border-l-4 border-indigo-600 hover:bg-indigo-600 transition hover:shadow-xl"
+                className="group flex bg-white rounded-xl shadow-md p-6 w-full sm:w-[48%] lg:w-[48%] items-start gap-4 border-l-4 border-indigo-600 hover:bg-indigo-600 transition hover:shadow-xl"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
