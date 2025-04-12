@@ -1,27 +1,41 @@
 import DataTable, { TableColumn } from 'react-data-table-component';
 
-export interface EventData {
+export interface eventData {
   id: number;
   title: string;
   description: string;
   location: string;
-  date: Date;
-  image: string | File; // support both uploaded File or URL
+  date: string;
+  image?: string;
 }
 
-interface EventTableProps {
-  data: EventData[];
-  onEdit: (event: EventData) => void;
+interface eventTableProps {
+  data: eventData[];
+  onEdit: (event: eventData) => void;
   onDelete: (id: number) => void;
 }
 
-const EventTable = ({ data, onEdit, onDelete }: EventTableProps) => {
-  const columns: TableColumn<EventData>[] = [
+const EventTable = ({ data, onEdit, onDelete }: eventTableProps) => {
+  const columns: TableColumn<eventData>[] = [
     {
       name: 'ID',
       selector: row => row.id,
       sortable: true,
       width: '80px',
+    },
+    {
+      name: 'Image',
+      cell: row => (
+        row.image ? (
+          <img
+            src={`http://localhost:4000${row.image}`}
+            alt={`Event ${row.id}`}
+            className="h-16 w-24 object-cover rounded"
+          />
+        ) : (
+          <span className="text-gray-400 italic">No image</span>
+        )
+      ),
     },
     {
       name: 'Title',
@@ -35,29 +49,12 @@ const EventTable = ({ data, onEdit, onDelete }: EventTableProps) => {
     },
     {
       name: 'Date',
-      selector: row => row.date.toLocaleString(), // full date-time
+      selector: row => new Date(row.date).toLocaleDateString(),
       sortable: true,
     },
     {
-      name: 'Image',
-      cell: row => {
-        const imageUrl =
-          typeof row.image === 'string'
-            ? row.image
-            : URL.createObjectURL(row.image); // preview for File
-
-        return (
-          <img
-            src={imageUrl}
-            alt={`Event ${row.id}`}
-            className="h-16 w-24 object-cover rounded"
-          />
-        );
-      },
-    },
-    {
       name: 'Actions',
-      cell: (row: EventData) => (
+      cell: (row: eventData) => (
         <div className="flex space-x-2">
           <button
             onClick={() => onEdit(row)}

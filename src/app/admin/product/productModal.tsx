@@ -1,55 +1,54 @@
 import { useState, useEffect } from 'react';
 
-export interface eventData {
+export interface ProductData {
   id: number;
-  title: string;
+  name: string;
   description: string;
-  location: string;
-  date: string;
+  price: number;
   image?: string;
-  imageFile?: any;
+  imageFile?: File;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-interface eventModalProps {
+interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
   isEditMode: boolean;
-  initialData: eventData | null;
-  onSubmit: (data: eventData) => void;
+  initialData: ProductData | null;
+  onSubmit: (data: ProductData) => void;
 }
 
-const EventModal = ({
+const ProductModal = ({
   isOpen,
   onClose,
   isEditMode,
   initialData,
   onSubmit,
-}: eventModalProps) => {
-  const [formData, setFormData] = useState<eventData>({
+}: ProductModalProps) => {
+  const [formData, setFormData] = useState<ProductData>({
     id: 0,
-    title: '',
+    name: '',
     description: '',
-    location: '',
-    date: '',
+    price: 0,
     image: '',
-    imageFile: '',
+    imageFile: undefined,
   });
 
   useEffect(() => {
     if (initialData) {
       setFormData({
         ...initialData,
-        imageFile: '',
+        imageFile: undefined,
       });
     } else {
       setFormData({
         id: 0,
-        title: '',
+        name: '',
         description: '',
-        location: '',
-        date: '',
+        price: 0,
         image: '',
-        imageFile: '',
+        imageFile: undefined,
       });
     }
   }, [initialData]);
@@ -60,7 +59,7 @@ const EventModal = ({
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: name === 'price' ? parseFloat(value) : value,
     }));
   };
 
@@ -78,8 +77,14 @@ const EventModal = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    const formDataWithPrice = {
+      ...formData,
+      price: parseFloat(formData.price.toString()), 
+    };
+  
+    onSubmit(formDataWithPrice);
   };
+  
 
   if (!isOpen) return null;
 
@@ -89,7 +94,7 @@ const EventModal = ({
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold text-gray-800">
-              {isEditMode ? 'Edit Event' : 'Add New Event'}
+              {isEditMode ? 'Edit Product' : 'Add New Product'}
             </h2>
             <button
               onClick={onClose}
@@ -100,16 +105,16 @@ const EventModal = ({
           </div>
 
           <form onSubmit={handleSubmit}>
-            {/* Title */}
+            {/* Name */}
             <div className="mb-4">
-              <label htmlFor="title" className="block text-sm font-bold text-gray-700 mb-1">
-                Title
+              <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-1">
+                Name
               </label>
               <input
                 type="text"
-                id="title"
-                name="title"
-                value={formData.title}
+                id="name"
+                name="name"
+                value={formData.name}
                 onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
@@ -131,32 +136,16 @@ const EventModal = ({
               />
             </div>
 
-            {/* Location */}
+            {/* Price */}
             <div className="mb-4">
-              <label htmlFor="location" className="block text-sm font-bold text-gray-700 mb-1">
-                Location
+              <label htmlFor="price" className="block text-sm font-bold text-gray-700 mb-1">
+                Price
               </label>
               <input
-                type="text"
-                id="location"
-                name="location"
-                value={formData.location}
-                onChange={handleInputChange}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-
-            {/* Date */}
-            <div className="mb-4">
-              <label htmlFor="date" className="block text-sm font-bold text-gray-700 mb-1">
-                Date
-              </label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                value={formData.date}
+                type="number"
+                id="price"
+                name="price"
+                value={formData.price}
                 onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
@@ -208,4 +197,4 @@ const EventModal = ({
   );
 };
 
-export default EventModal;
+export default ProductModal;

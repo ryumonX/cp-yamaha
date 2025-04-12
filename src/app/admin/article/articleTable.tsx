@@ -1,20 +1,22 @@
 import DataTable, { TableColumn } from 'react-data-table-component';
 
-export interface UserData {
+export interface ArticleData {
   id: number;
-  username: string;
-  name: string;
-  password?:string;
+  title: string;
+  content: string;
+  thumbnail?: string; // <- sudah boleh undefined
+  publishedAt: string;
+  authorId: number;
 }
 
-interface UserTableProps {
-  data: UserData[];
-  onEdit: (user: UserData) => void;
+interface ArticleTableProps {
+  data: ArticleData[];
+  onEdit: (article: ArticleData) => void;
   onDelete: (id: number) => void;
 }
 
-const UserTable = ({ data, onEdit, onDelete }: UserTableProps) => {
-  const columns: TableColumn<UserData>[] = [
+const ArticleTable = ({ data, onEdit, onDelete }: ArticleTableProps) => {
+  const columns: TableColumn<ArticleData>[] = [
     {
       name: 'ID',
       selector: row => row.id,
@@ -22,18 +24,37 @@ const UserTable = ({ data, onEdit, onDelete }: UserTableProps) => {
       width: '80px',
     },
     {
-      name: 'Username',
-      selector: row => row.username,
+      name: 'Thumbnail',
+      cell: row => (
+        row.thumbnail ? (
+          <img
+            src={`http://localhost:4000${row.thumbnail}`}
+            alt={`Article ${row.id}`}
+            className="h-16 w-24 object-cover rounded"
+          />
+        ) : (
+          <span className="text-gray-400 italic">No thumbnail</span>
+        )
+      ),
+    },
+    {
+      name: 'Title',
+      selector: row => row.title,
       sortable: true,
     },
     {
-      name: 'Name',
-      selector: row => row.name,
+      name: 'Content',
+      selector: row => row.content.slice(0, 50) + '...',
+      sortable: false,
+    },
+    {
+      name: 'Published At',
+      selector: row => new Date(row.publishedAt).toLocaleDateString(),
       sortable: true,
     },
     {
       name: 'Actions',
-      cell: (row: UserData) => (
+      cell: (row: ArticleData) => (
         <div className="flex space-x-2">
           <button
             onClick={() => onEdit(row)}
@@ -79,4 +100,4 @@ const UserTable = ({ data, onEdit, onDelete }: UserTableProps) => {
   );
 };
 
-export default UserTable;
+export default ArticleTable;

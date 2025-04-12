@@ -1,55 +1,55 @@
 import { useState, useEffect } from 'react';
 
-export interface eventData {
+export interface ArticleData {
   id: number;
   title: string;
-  description: string;
-  location: string;
-  date: string;
-  image?: string;
-  imageFile?: any;
+  content: string;
+  thumbnail?: string;
+  thumbnailFile?: any;
+  publishedAt: string;
+  authorId: number;
 }
 
-interface eventModalProps {
+interface ArticleModalProps {
   isOpen: boolean;
   onClose: () => void;
   isEditMode: boolean;
-  initialData: eventData | null;
-  onSubmit: (data: eventData) => void;
+  initialData: ArticleData | null;
+  onSubmit: (data: ArticleData) => void;
 }
 
-const EventModal = ({
+const ArticleModal = ({
   isOpen,
   onClose,
   isEditMode,
   initialData,
   onSubmit,
-}: eventModalProps) => {
-  const [formData, setFormData] = useState<eventData>({
+}: ArticleModalProps) => {
+  const [formData, setFormData] = useState<ArticleData>({
     id: 0,
     title: '',
-    description: '',
-    location: '',
-    date: '',
-    image: '',
-    imageFile: '',
+    content: '',
+    thumbnail: '',
+    thumbnailFile: '',
+    publishedAt: '',
+    authorId: 0,
   });
 
   useEffect(() => {
     if (initialData) {
       setFormData({
         ...initialData,
-        imageFile: '',
+        thumbnailFile: '',
       });
     } else {
       setFormData({
         id: 0,
         title: '',
-        description: '',
-        location: '',
-        date: '',
-        image: '',
-        imageFile: '',
+        content: '',
+        thumbnail: '',
+        thumbnailFile: '',
+        publishedAt: '',
+        authorId: 0,
       });
     }
   }, [initialData]);
@@ -60,7 +60,7 @@ const EventModal = ({
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: name === 'authorId' ? parseInt(value, 10) : value,
     }));
   };
 
@@ -70,8 +70,8 @@ const EventModal = ({
       const previewUrl = URL.createObjectURL(file);
       setFormData(prev => ({
         ...prev,
-        image: previewUrl,
-        imageFile: file,
+        thumbnail: previewUrl,
+        thumbnailFile: file,
       }));
     }
   };
@@ -89,7 +89,7 @@ const EventModal = ({
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold text-gray-800">
-              {isEditMode ? 'Edit Event' : 'Add New Event'}
+              {isEditMode ? 'Edit Article' : 'Add New Article'}
             </h2>
             <button
               onClick={onClose}
@@ -116,70 +116,55 @@ const EventModal = ({
               />
             </div>
 
-            {/* Description */}
+            {/* Content */}
             <div className="mb-4">
-              <label htmlFor="description" className="block text-sm font-bold text-gray-700 mb-1">
-                Description
+              <label htmlFor="content" className="block text-sm font-bold text-gray-700 mb-1">
+                Content
               </label>
               <textarea
-                id="description"
-                name="description"
-                value={formData.description}
+                id="content"
+                name="content"
+                value={formData.content}
                 onChange={handleInputChange}
-                rows={3}
+                rows={5}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
               />
             </div>
 
-            {/* Location */}
+            {/* Author ID */}
             <div className="mb-4">
-              <label htmlFor="location" className="block text-sm font-bold text-gray-700 mb-1">
-                Location
+              <label htmlFor="authorId" className="block text-sm font-bold text-gray-700 mb-1">
+                Author ID
               </label>
               <input
-                type="text"
-                id="location"
-                name="location"
-                value={formData.location}
+                type="number"
+                id="authorId"
+                name="authorId"
+                value={formData.authorId}
                 onChange={handleInputChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
               />
             </div>
 
-            {/* Date */}
+            {/* Thumbnail Upload */}
             <div className="mb-4">
-              <label htmlFor="date" className="block text-sm font-bold text-gray-700 mb-1">
-                Date
-              </label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                value={formData.date}
-                onChange={handleInputChange}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              />
-            </div>
-
-            {/* Image Upload */}
-            <div className="mb-4">
-              <label htmlFor="image" className="block text-sm font-bold text-gray-700 mb-1">
-                Upload Image
+              <label htmlFor="thumbnail" className="block text-sm font-bold text-gray-700 mb-1">
+                Upload Thumbnail
               </label>
               <input
                 type="file"
-                id="image"
-                name="image"
+                id="thumbnail"
+                name="thumbnail"
                 accept="image/*"
                 onChange={handleFileChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 required={!isEditMode}
               />
-              {formData.image && (
+              {formData.thumbnail && (
                 <img
-                  src={formData.image}
+                  src={formData.thumbnail}
                   alt="Preview"
                   className="mt-2 h-32 object-contain rounded"
                 />
@@ -208,4 +193,4 @@ const EventModal = ({
   );
 };
 
-export default EventModal;
+export default ArticleModal;

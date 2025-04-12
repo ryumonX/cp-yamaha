@@ -1,20 +1,24 @@
 import DataTable, { TableColumn } from 'react-data-table-component';
 
-export interface UserData {
+export interface ProductData {
   id: number;
-  username: string;
   name: string;
-  password?:string;
+  description: string;
+  price: number;
+  image?: string;
+  imageFile?: File;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-interface UserTableProps {
-  data: UserData[];
-  onEdit: (user: UserData) => void;
+interface ProductTableProps {
+  data: ProductData[];
+  onEdit: (product: ProductData) => void;
   onDelete: (id: number) => void;
 }
 
-const UserTable = ({ data, onEdit, onDelete }: UserTableProps) => {
-  const columns: TableColumn<UserData>[] = [
+const ProductTable = ({ data, onEdit, onDelete }: ProductTableProps) => {
+  const columns: TableColumn<ProductData>[] = [
     {
       name: 'ID',
       selector: row => row.id,
@@ -22,9 +26,18 @@ const UserTable = ({ data, onEdit, onDelete }: UserTableProps) => {
       width: '80px',
     },
     {
-      name: 'Username',
-      selector: row => row.username,
-      sortable: true,
+      name: 'Image',
+      cell: row => (
+        row.image ? (
+          <img
+            src={`http://localhost:4000${row.image}`}
+            alt={row.name}
+            className="h-16 w-24 object-cover rounded"
+          />
+        ) : (
+          <span className="text-gray-400 italic">No image</span>
+        )
+      ),
     },
     {
       name: 'Name',
@@ -32,8 +45,13 @@ const UserTable = ({ data, onEdit, onDelete }: UserTableProps) => {
       sortable: true,
     },
     {
+      name: 'Price',
+      selector: row => `$${row.price.toFixed(2)}`,
+      sortable: true,
+    },
+    {
       name: 'Actions',
-      cell: (row: UserData) => (
+      cell: (row: ProductData) => (
         <div className="flex space-x-2">
           <button
             onClick={() => onEdit(row)}
@@ -79,4 +97,4 @@ const UserTable = ({ data, onEdit, onDelete }: UserTableProps) => {
   );
 };
 
-export default UserTable;
+export default ProductTable;
