@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.10",
     "axios": "^1.8.4",
     "framer-motion": "^12.6.3",
     "next": "15.3.0",
     "react": "^19.1.0",
+    "react-data-table-component": "^7.7.0",
     "react-dom": "^19.1.0",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.2.6"
