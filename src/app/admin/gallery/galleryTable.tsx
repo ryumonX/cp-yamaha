@@ -24,7 +24,7 @@ const GalleryTable = ({ data, onEdit, onDelete }: galleryTableProps) => {
       name: 'Image',
       cell: row => (
         <img
-          src={row.imageUrl}
+          src={`http://localhost:4000${row.imageUrl}`}
           alt={`Gallery ${row.id}`}
           className="h-16 w-24 object-cover rounded"
         />
@@ -34,13 +34,13 @@ const GalleryTable = ({ data, onEdit, onDelete }: galleryTableProps) => {
       name: 'Actions',
       cell: (row: galleryData) => (
         <div className="flex space-x-2">
-          <button 
+          <button
             onClick={() => onEdit(row)}
             className="text-blue-500 hover:text-blue-700"
           >
             Edit
           </button>
-          <button 
+          <button
             onClick={() => onDelete(row.id)}
             className="text-red-500 hover:text-red-700"
           >

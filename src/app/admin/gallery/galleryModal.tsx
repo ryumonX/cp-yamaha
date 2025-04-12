@@ -4,6 +4,7 @@ export interface galleryData {
   id: number;
   title: string;
   imageUrl: string;
+  imageFile?: any;
 }
 
 interface galleryModalProps {
@@ -25,6 +26,7 @@ const GalleryModal = ({
     id: 0,
     title: '',
     imageUrl: '',
+    imageFile: '',
   });
 
   useEffect(() => {
@@ -35,6 +37,7 @@ const GalleryModal = ({
         id: 0,
         title: '',
         imageUrl: '',
+        imageFile: ''
       });
     }
   }, [initialData]);
@@ -54,6 +57,7 @@ const GalleryModal = ({
       setFormData(prev => ({
         ...prev,
         imageUrl,
+        imageFile: file
       }));
     }
   };

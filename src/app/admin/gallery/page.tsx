@@ -10,6 +10,7 @@ export interface galleryData {
   id: number;
   imageUrl: string;
   title: string;
+  imageFile?: any;
 }
 
 const GalleryPage = () => {
@@ -59,16 +60,20 @@ const GalleryPage = () => {
       alert('Title and image are required!');
       return;
     }
-
+    console.log('imageUrl', formData.imageUrl)
     try {
       const form = new FormData();
       form.append('title', formData.title);
-      form.append('imageUrl', formData.imageUrl);
+      form.append('imageUrl', formData.imageFile);
 
       if (isEditMode && currentGallery) {
         await API.put(`/gallery/${currentGallery.id}`, form);
       } else {
-        await API.post('/gallery', form);
+        await API.post('/gallery', form, {
+          headers: {
+            'Content-Type': 'multipart/form-data' // <-- Don't do this manually
+          }
+        });
       }
 
       fetchGalleries();
@@ -86,7 +91,7 @@ const GalleryPage = () => {
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">Gallery Management</h1>
-            <button 
+            <button
               onClick={handleAdd}
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center"
             >
