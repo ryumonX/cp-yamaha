@@ -21,7 +21,7 @@ const Ourclient: React.FC = () => {
     <section id="our-client" className="py-16 px-4 text-center bg-black">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold mb-12 text-white relative inline-block">
-          Our Clients
+          KLIEN KAMI
           <span className="absolute left-0 bottom-0 h-0.5 bg-red-600 w-full 
             transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
         </h2>

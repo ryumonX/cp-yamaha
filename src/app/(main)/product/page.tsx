@@ -63,23 +63,25 @@ const Product: React.FC = () => {
             className="relative group transform skew-x-[-6deg] bg-zinc-900 bg-opacity-90 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition duration-300 cursor-pointer"
           >
             <div className="transform skew-x-[6deg]">
-              <img
-                src={`http://localhost:4000${product.image}`}
-                alt={product.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4 flex items-center justify-between bg-zinc-900 rounded-xl text-white">
-                <div>
-                  <h2 className="text-xl font-bold mb-1">{product.name}</h2>
-                  <p className="text-gray-300 mb-2">{product.description}</p>
-                </div>
-                <div className="ml-4">
-                  <span className="bg-red-600 text-white text-sm font-bold px-4 py-2 rounded-full shadow">
+              <div className="relative">
+                <img
+                  src={`http://localhost:4000${product.image}`}
+                  alt={product.name}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4 bg-zinc-900 rounded-xl text-white">
+                  <div>
+                    <h2 className="text-xl font-bold mb-1">{product.name}</h2>
+                    <p className="text-gray-300 mb-8">{product.description}</p>
+                  </div>
+                  {/* Harga di kanan bawah */}
+                  <span className="absolute bottom-4 right-4 text-red-500 text-sm font-bold px-4 py-2 ">
                     Rp {product.price.toLocaleString('id-ID')}
                   </span>
                 </div>
               </div>
             </div>
+
 
             {/* Dropdown link muncul saat hover */}
             {product.links?.length > 0 && (

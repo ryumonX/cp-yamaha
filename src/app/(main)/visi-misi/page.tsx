@@ -21,7 +21,7 @@ const VisiMisi: React.FC = () => {
         <div className="bg-white shadow-lg rounded-2xl p-10 mb-20 flex flex-col lg:flex-row items-center gap-10">
           <div className="lg:w-1/2">
             <img
-              src="/resource/about.png"
+              src="\resource\yamaha.jpg"
               alt="Visi Kami"
               className="w-full h-auto rounded-xl"
             />

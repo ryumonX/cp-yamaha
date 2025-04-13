@@ -50,12 +50,13 @@ const BlogPage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <header className="bg-blue-600 text-white py-16">
+      <header className="bg-black py-16">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Blog & Artikel</h1>
-          <p className="text-xl">Temukan wawasan terbaru seputar perkembangan perusahaan dan industri</p>
+          <h1 className="text-4xl font-bold mb-4 text-red-600">Blog & Artikel</h1>
+          <p className="text-xl text-white">Temukan wawasan terbaru seputar perkembangan perusahaan dan industri</p>
         </div>
       </header>
+
 
       <main className="container mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -68,12 +69,11 @@ const BlogPage: React.FC = () => {
                   className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
                 >
                   <img src={`http://localhost:4000${article.thumbnail}`}
-                   alt={article.title} className="w-full h-48 object-cover" />
+                    alt={article.title} className="w-full h-48 object-cover" />
                   <div className="p-6">
                     <h2 className="text-2xl font-bold mb-2">{article.title}</h2>
-                    <p className="text-gray-600 mb-4 line-clamp-3">{article.content}</p>
                     <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
-                    <span>Oleh <strong>{article.author.name}</strong></span>
+                      <span>Oleh <strong>{article.author.name}</strong></span>
                       <span>{new Date(article.publishedAt).toLocaleDateString('id-ID', {
                         day: 'numeric', month: 'long', year: 'numeric'
                       })}</span>

@@ -1,6 +1,11 @@
+'use client'; 
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 
 const Jumbotron = () => {
+  const router = useRouter();
+
   const fadeInVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -11,9 +16,17 @@ const Jumbotron = () => {
     visible: { opacity: 1, x: 0 },
   };
 
-  // SVG pattern untuk bintik-bintik
+  const handleScrollToEvent = () => {
+    const element = document.getElementById('event');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      router.push('/#event'); // fallback kalau section belum dimuat
+    }
+  };
+
   const DotsPattern = () => (
-    <svg className="absolute inset-0 h-full w-full opacity-20">
+    <svg aria-hidden="true" className="absolute inset-0 h-full w-full opacity-20">
       <pattern
         id="dots-pattern"
         width="20"
@@ -29,21 +42,19 @@ const Jumbotron = () => {
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-gray-900">
-      {/* Background dengan efek parallax dan overlay */}
+      {/* Background image + overlay */}
       <motion.div
         initial={{ opacity: 0, scale: 1.2 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.5 }}
         className="absolute inset-0 bg-[url('/motorcycle-group.jpg')] bg-cover bg-center"
-        style={{
-          backgroundAttachment: 'fixed',
-        }}
+        style={{ backgroundAttachment: 'fixed' }}
       >
         <div className="absolute inset-0 bg-black/70" />
-        <DotsPattern /> {/* Tambahkan pattern bintik-bintik */}
+        <DotsPattern />
       </motion.div>
 
-      {/* Konten utama */}
+      {/* Main Content */}
       <div className="relative flex h-full items-center justify-center">
         <div className="container mx-auto px-4 text-center">
           <motion.div
@@ -52,7 +63,6 @@ const Jumbotron = () => {
             transition={{ staggerChildren: 0.2 }}
             className="flex flex-col items-center"
           >
-            {/* Nama klub */}
             <motion.div
               variants={slideInFromLeft}
               transition={{ duration: 0.8 }}
@@ -63,7 +73,6 @@ const Jumbotron = () => {
               </h2>
             </motion.div>
 
-            {/* Judul utama */}
             <motion.h1
               variants={fadeInVariants}
               transition={{ duration: 0.8 }}
@@ -73,7 +82,6 @@ const Jumbotron = () => {
               <span className="text-red-500">RIDERS</span>
             </motion.h1>
 
-            {/* Garis pemisah animasi */}
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: '200px' }}
@@ -81,7 +89,6 @@ const Jumbotron = () => {
               className="my-6 h-1 bg-red-500"
             />
 
-            {/* Deskripsi */}
             <motion.p
               variants={fadeInVariants}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -91,29 +98,29 @@ const Jumbotron = () => {
               petualangan, dan kecintaan terhadap dunia otomotif.
             </motion.p>
 
-            {/* Container tombol */}
             <motion.div
               variants={fadeInVariants}
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-col gap-4 sm:flex-row"
             >
               <motion.button
-                whileHover={{ 
+                whileHover={{
                   scale: 1.05,
-                  boxShadow: "0 0 15px rgba(220, 38, 38, 0.7)" // glow effect
+                  boxShadow: '0 0 15px rgba(220, 38, 38, 0.7)',
                 }}
                 whileTap={{ scale: 0.95 }}
                 className="rounded-lg bg-red-600 px-8 py-3 font-bold text-white transition-all hover:bg-red-700"
               >
                 Gabung Komunitas
               </motion.button>
-              
+
               <motion.button
-                whileHover={{ 
+                whileHover={{
                   scale: 1.05,
-                  boxShadow: "0 0 15px rgba(255, 255, 255, 0.5)"
+                  boxShadow: '0 0 15px rgba(255, 255, 255, 0.5)',
                 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={handleScrollToEvent}
                 className="rounded-lg border-2 border-white bg-transparent px-8 py-3 font-bold text-white transition-all hover:bg-white hover:text-gray-900"
               >
                 Event Kami
@@ -123,7 +130,7 @@ const Jumbotron = () => {
         </div>
       </div>
 
-      {/* Elemen dekoratif bawah */}
+      {/* Decorative Arrow */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

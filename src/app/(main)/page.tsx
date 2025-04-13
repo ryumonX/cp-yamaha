@@ -8,6 +8,7 @@ import Product from "./product/page";
 import EventPage from "./event/page";
 import Gallery from "./gallery/page";
 import FAQ from "@/components/faq";
+import ContactSection from "./contact/page";
 import Footer from "@/components/footer";
 import FadeUpSection from "@/utils/fadeupsection";
 
@@ -45,6 +46,8 @@ export default function Home() {
         <FadeUpSection delay={0.6}>
           <Gallery />
         </FadeUpSection>
+
+        <ContactSection/>
 
         <Footer />
       </main>

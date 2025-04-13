@@ -102,7 +102,7 @@ const EventPage: React.FC = () => {
   }
 
   return (
-    <section className="min-h-screen bg-black py-20 px-4 sm:px-6 lg:px-8">
+    <section id="event" className="min-h-screen bg-black py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold text-white mb-16 text-center relative pb-4">
           Upcoming Events
