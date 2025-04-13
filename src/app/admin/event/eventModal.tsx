@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+'use client';
 
+import { useState, useEffect } from 'react';
+import { getCurrentUser } from '@/utils/authMethod';
 export interface eventData {
   id: number;
   title: string;
@@ -8,6 +10,7 @@ export interface eventData {
   date: string;
   image?: string;
   imageFile?: any;
+  authorId?: number;
 }
 
 interface eventModalProps {
@@ -33,7 +36,18 @@ const EventModal = ({
     date: '',
     image: '',
     imageFile: '',
+    authorId: undefined,
   });
+
+  const [currentUser, setCurrentUser] = useState<{ id: number; username: string } | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await getCurrentUser();
+      setCurrentUser(user);
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     if (initialData) {
@@ -50,6 +64,7 @@ const EventModal = ({
         date: '',
         image: '',
         imageFile: '',
+        authorId: undefined,
       });
     }
   }, [initialData]);
@@ -78,7 +93,18 @@ const EventModal = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+
+    if (!currentUser) {
+      alert('User belum login!');
+      return;
+    }
+
+    const dataWithAuthor = {
+      ...formData,
+      authorId: currentUser.id,
+    };
+
+    onSubmit(dataWithAuthor);
   };
 
   if (!isOpen) return null;
