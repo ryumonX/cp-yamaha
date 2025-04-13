@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import API from '@/utils/axiosClient';
 import ArticleModal from './articleModal';
+import Sidebar from '@/components/UI/admin-sidebar';
 
 const ArticleTable = dynamic(() => import('./articleTable'), { ssr: false });
 
@@ -94,8 +95,10 @@ const ArticlePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="p-6">
+    <div className="flex min-h-screen bg-gray-100">
+    <Sidebar />
+
+    <div className="flex-1 p-6 max-w-screen-xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">Article Management</h1>

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import API from '@/utils/axiosClient';
 import GalleryModal from './galleryModal';
+import Sidebar from '@/components/UI/admin-sidebar';
 
 const GalleryTable = dynamic(() => import('./galleryTable'), { ssr: false });
 
@@ -56,11 +57,11 @@ const GalleryPage = () => {
   };
 
   const handleSubmit = async (formData: galleryData) => {
-    if (!formData.title || !formData.imageUrl) {
+    if (!formData.title || !formData.imageFile) {
       alert('Title and image are required!');
       return;
     }
-    console.log('imageUrl', formData.imageUrl)
+
     try {
       const form = new FormData();
       form.append('title', formData.title);
@@ -71,14 +72,13 @@ const GalleryPage = () => {
       } else {
         await API.post('/gallery', form, {
           headers: {
-            'Content-Type': 'multipart/form-data' // <-- Don't do this manually
+            'Content-Type': 'multipart/form-data'
           }
         });
       }
 
-      fetchGalleries();
-
-      setIsModalOpen(false);
+      // Hard reload after successful submit
+      window.location.reload();
     } catch (err) {
       console.error('Failed to save gallery:', err);
       alert('Something went wrong. Please try again later.');
@@ -86,8 +86,10 @@ const GalleryPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="p-6">
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar />
+
+      <div className="flex-1 p-6 max-w-screen-xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">Gallery Management</h1>

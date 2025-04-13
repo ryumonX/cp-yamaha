@@ -7,6 +7,7 @@ export interface ProductData {
   price: number;
   image?: string;
   imageFile?: File;
+  links?: { id: number; url: string; productId: number }[];  
   createdAt?: string;
   updatedAt?: string;
 }
@@ -49,6 +50,28 @@ const ProductTable = ({ data, onEdit, onDelete }: ProductTableProps) => {
       selector: row => `$${row.price.toFixed(2)}`,
       sortable: true,
     },
+    {
+      name: 'Links',
+      cell: row => (
+        row.links && row.links.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {row.links.map((link, index) => (
+              <a
+                key={index}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-100 text-blue-700 px-2 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors"
+              >
+                Link {index + 1}
+              </a>
+            ))}
+          </div>
+        ) : (
+          <span className="text-gray-400 italic">No link</span>
+        )
+      ),
+    }, 
     {
       name: 'Actions',
       cell: (row: ProductData) => (

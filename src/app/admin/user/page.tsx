@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import API from '@/utils/axiosClient';
 import UserModal from './usermodal';
-// import UserModal from './userModal';
-
+import Sidebar from '@/components/UI/admin-sidebar';
 
 const UserTable = dynamic(() => import('./userTable'), { ssr: false });
 
@@ -62,27 +61,28 @@ const UserPage = () => {
       alert('All fields are required!');
       return;
     }
-  
+
     try {
       if (isEditMode && currentUser) {
         await API.put(`/users/${currentUser.id}`, formData);
       } else {
-        const { id, ...createData } = formData; // buang id sebelum create
+        const { id, ...createData } = formData;
         await API.post('/users', createData);
       }
-  
-      fetchUsers();
-      setIsModalOpen(false);
+
+      // Force reload the page to reflect changes
+      window.location.reload();
     } catch (err) {
       console.error('Failed to save user:', err);
       alert('Something went wrong. Please try again later.');
     }
   };
-  
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="p-6">
+    <div className="flex min-h-screen bg-gray-100">
+    <Sidebar />
+
+    <div className="flex-1 p-6 max-w-screen-xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">User Management</h1>

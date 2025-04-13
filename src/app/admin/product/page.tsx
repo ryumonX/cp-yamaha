@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import API from '@/utils/axiosClient';
 import ProductModal from './productModal';
+import Sidebar from '@/components/UI/admin-sidebar';
 
 const ProductTable = dynamic(() => import('./productTable'), { ssr: false });
 
@@ -13,6 +14,7 @@ export interface ProductData {
   price: number;
   image?: string;
   imageFile?: File;
+  links?: { id: number; url: string; productId: number }[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -52,7 +54,6 @@ const ProductPage = () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await API.delete(`/product/${id}`);
-        fetchProducts();
       } catch (err) {
         console.error('Failed to delete product:', err);
       }
@@ -60,8 +61,8 @@ const ProductPage = () => {
   };
 
   const handleSubmit = async (formData: ProductData) => {
-    if (!formData.name || !formData.imageFile) {
-      alert('Name and image are required!');
+    if (!formData.name || !formData.imageFile || !formData.links || formData.links.length === 0) {
+      alert('Name, image, and links are required!');
       return;
     }
 
@@ -72,22 +73,25 @@ const ProductPage = () => {
       form.append('price', formData.price.toString());
       form.append('image', formData.imageFile);
 
+      formData.links.forEach((link) => {
+        form.append('links[]', link.url);
+      });
+
       if (isEditMode && currentProduct) {
-        await API.put(`/product/${currentProduct.id}`, form,{
+        await API.put(`/product/${currentProduct.id}`, form, {
           headers: {
-            'Content-Type': 'multipart/form-data' // <-- Don't do this manually
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         });
       } else {
-        await API.post('/product', form,{
+        await API.post('/product', form, {
           headers: {
-            'Content-Type': 'multipart/form-data' // <-- Don't do this manually
-          }
+            'Content-Type': 'multipart/form-data',
+          },
         });
       }
 
-      fetchProducts();
-      setIsModalOpen(false);
+      window.location.reload(); // Hard refresh after save
     } catch (err) {
       console.error('Failed to save product:', err);
       alert('Something went wrong. Please try again later.');
@@ -95,8 +99,10 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="p-6">
+    <div className="flex min-h-screen bg-gray-100">
+    <Sidebar />
+
+    <div className="flex-1 p-6 max-w-screen-xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">Product Management</h1>

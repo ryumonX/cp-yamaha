@@ -7,6 +7,7 @@ export interface ProductData {
   price: number;
   image?: string;
   imageFile?: File;
+  links?: { id: number; url: string; productId: number }[];  // Use object type for links
   createdAt?: string;
   updatedAt?: string;
 }
@@ -32,6 +33,7 @@ const ProductModal = ({
     description: '',
     price: 0,
     image: '',
+    links: [],  // Pastikan links adalah array kosong sebagai default
     imageFile: undefined,
   });
 
@@ -39,7 +41,8 @@ const ProductModal = ({
     if (initialData) {
       setFormData({
         ...initialData,
-        imageFile: undefined,
+        links: initialData.links ?? [], // Pastikan links selalu array
+        imageFile: undefined,  // Reset the imageFile to undefined when editing
       });
     } else {
       setFormData({
@@ -48,6 +51,7 @@ const ProductModal = ({
         description: '',
         price: 0,
         image: '',
+        links: [], // Reset ke array kosong
         imageFile: undefined,
       });
     }
@@ -60,6 +64,30 @@ const ProductModal = ({
     setFormData(prev => ({
       ...prev,
       [name]: name === 'price' ? parseFloat(value) : value,
+    }));
+  };
+
+  const handleLinkChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const updatedLinks = [...(formData.links ?? [])];
+    updatedLinks[index].url = e.target.value; // Update the URL of the specific link
+    setFormData(prev => ({
+      ...prev,
+      links: updatedLinks,
+    }));
+  };
+
+  const handleAddLink = () => {
+    setFormData(prev => ({
+      ...prev,
+      links: [...(prev.links ?? []), { id: Date.now(), url: '', productId: prev.id }] // Generate unique id for new link
+    }));
+  };
+
+  const handleRemoveLink = (index: number) => {
+    const updatedLinks = (formData.links ?? []).filter((_, idx) => idx !== index);
+    setFormData(prev => ({
+      ...prev,
+      links: updatedLinks,
     }));
   };
 
@@ -79,12 +107,10 @@ const ProductModal = ({
     e.preventDefault();
     const formDataWithPrice = {
       ...formData,
-      price: parseFloat(formData.price.toString()), 
+      price: parseFloat(formData.price.toString()),
     };
-  
     onSubmit(formDataWithPrice);
   };
-  
 
   if (!isOpen) return null;
 
@@ -136,6 +162,36 @@ const ProductModal = ({
               />
             </div>
 
+            {/* Links */}
+            <div className="mb-4">
+              <label className="block text-sm font-bold text-gray-700 mb-1">Product Links</label>
+              {(formData.links ?? []).map((link, index) => (
+                <div key={index} className="flex items-center mb-2">
+                  <input
+                    type="text"
+                    value={link.url}
+                    onChange={(e) => handleLinkChange(e, index)}
+                    placeholder="Enter link"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveLink(index)}
+                    className="ml-2 text-red-500"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={handleAddLink}
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-2"
+              >
+                Add Link
+              </button>
+            </div>
+
             {/* Price */}
             <div className="mb-4">
               <label htmlFor="price" className="block text-sm font-bold text-gray-700 mb-1">
@@ -175,6 +231,7 @@ const ProductModal = ({
               )}
             </div>
 
+            {/* Buttons */}
             <div className="flex justify-end space-x-3">
               <button
                 type="button"

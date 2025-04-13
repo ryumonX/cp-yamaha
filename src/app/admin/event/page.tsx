@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import API from '@/utils/axiosClient';
 import EventModal from './eventModal';
+import Sidebar from '@/components/UI/admin-sidebar';
 
 const EventTable = dynamic(() => import('./eventTable'), { ssr: false });
 
@@ -73,22 +74,20 @@ const EventPage = () => {
       form.append('image', formData.imageFile);
 
       if (isEditMode && currentEvent) {
-        await API.put(`/event/${currentEvent.id}`, form,{
+        await API.put(`/event/${currentEvent.id}`, form, {
           headers: {
-            'Content-Type': 'multipart/form-data' // <-- Don't do this manually
+            'Content-Type': 'multipart/form-data'
           }
         });
       } else {
-        await API.post('/event', form,{
+        await API.post('/event', form, {
           headers: {
-            'Content-Type': 'multipart/form-data' // <-- Don't do this manually
+            'Content-Type': 'multipart/form-data'
           }
         });
-        
       }
 
-      fetchEvents();
-      setIsModalOpen(false);
+      window.location.reload();
     } catch (err) {
       console.error('Failed to save event:', err);
       alert('Something went wrong. Please try again later.');
@@ -96,8 +95,10 @@ const EventPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="p-6">
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar />
+
+      <div className="flex-1 p-6 max-w-screen-xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">Event Management</h1>
