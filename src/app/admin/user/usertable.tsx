@@ -1,10 +1,11 @@
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import DataTable, { TableColumn } from 'react-data-table-component';
 
 export interface UserData {
   id: number;
   username: string;
   name: string;
-  password?:string;
+  password?: string;
 }
 
 interface UserTableProps {
@@ -39,13 +40,15 @@ const UserTable = ({ data, onEdit, onDelete }: UserTableProps) => {
             onClick={() => onEdit(row)}
             className="text-blue-500 hover:text-blue-700"
           >
-            Edit
+            <PencilSquareIcon className="h-5 w-5 text-blue-500" />
+
           </button>
           <button
             onClick={() => onDelete(row.id)}
             className="text-red-500 hover:text-red-700"
           >
-            Delete
+            <TrashIcon className="h-5 w-5 text-blue-500" />
+            
           </button>
         </div>
       ),

@@ -1,8 +1,9 @@
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import DataTable, { TableColumn } from 'react-data-table-component';
 
 export interface galleryData {
   id: number;
-  title:string;
+  title: string;
   imageUrl: string;
 }
 
@@ -38,13 +39,15 @@ const GalleryTable = ({ data, onEdit, onDelete }: galleryTableProps) => {
             onClick={() => onEdit(row)}
             className="text-blue-500 hover:text-blue-700"
           >
-            Edit
+            <PencilSquareIcon className="h-5 w-5 text-blue-500" />
+
           </button>
           <button
             onClick={() => onDelete(row.id)}
             className="text-red-500 hover:text-red-700"
           >
-            Delete
+            <TrashIcon className="h-5 w-5 text-red-500" />
+
           </button>
         </div>
       ),

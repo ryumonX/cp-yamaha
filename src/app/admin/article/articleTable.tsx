@@ -1,5 +1,5 @@
 import DataTable, { TableColumn } from 'react-data-table-component';
-
+import { PencilSquareIcon,TrashIcon } from '@heroicons/react/24/solid';
 export interface ArticleData {
   id: number;
   title: string;
@@ -60,13 +60,13 @@ const ArticleTable = ({ data, onEdit, onDelete }: ArticleTableProps) => {
             onClick={() => onEdit(row)}
             className="text-blue-500 hover:text-blue-700"
           >
-            Edit
+            <PencilSquareIcon className="h-5 w-5 text-blue-500" />
           </button>
           <button
             onClick={() => onDelete(row.id)}
             className="text-red-500 hover:text-red-700"
           >
-            Delete
+            <TrashIcon className="h-5 w-5 text-red-500" />
           </button>
         </div>
       ),
