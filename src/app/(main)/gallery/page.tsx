@@ -1,22 +1,27 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+import API from '@/utils/axiosClient';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const images = [
-    '/resource/about.png',
-    '/resource/about.png',
-    '/resource/about.png',
-    '/resource/about.png',
-    '/resource/about.png',
-    '/resource/about.png',
-    '/resource/about.png',
-    '/resource/about.png',
-];
-
 const Gallery = () => {
+    const [images, setImages] = useState<string[]>([]); // Store the images fetched from the API
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+
+    useEffect(() => {
+        API.get('/gallery') 
+        .then((response) => {
+            const fetchedImages = response.data.map((item: { imageUrl: string }) => 
+                `http://localhost:4000${item.imageUrl}`
+            );
+            setImages(fetchedImages);
+        })
+            .catch((error) => {
+                console.error('Error fetching images:', error);
+            });
+    }, []);
 
     const totalPages = Math.ceil(images.length / itemsPerPage);
     const startIdx = (currentPage - 1) * itemsPerPage;
@@ -32,7 +37,7 @@ const Gallery = () => {
 
     return (
         <>
-            {/* Title dengan ID */}
+            {/* Title with ID */}
             <div id="gallery" className="text-center my-6">
                 <h1 className="text-3xl font-bold text-center text-black mb-10">Gallery</h1>
             </div>

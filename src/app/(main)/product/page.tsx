@@ -1,6 +1,13 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import API from '@/utils/axiosClient';
+
+type Link = {
+  id: number;
+  url: string;
+  productId: number;
+};
 
 type Product = {
   id: number;
@@ -8,82 +15,107 @@ type Product = {
   description: string;
   image: string;
   price: number;
+  links: Link[];
 };
-
-const products: Product[] = [
-  {
-    id: 1,
-    name: 'Produk A',
-    description: 'Deskripsi singkat produk A.',
-    image: '/images/produk-a.jpg',
-    price: 150000,
-  },
-  {
-    id: 2,
-    name: 'Produk B',
-    description: 'Deskripsi singkat produk B.',
-    image: '/images/produk-b.jpg',
-    price: 200000,
-  },
-  {
-    id: 3,
-    name: 'Produk C',
-    description: 'Deskripsi singkat produk C.',
-    image: '/images/produk-c.jpg',
-    price: 180000,
-  },
-  {
-    id: 4,
-    name: 'Produk D',
-    description: 'Deskripsi singkat produk D.',
-    image: '/images/produk-d.jpg',
-    price: 210000,
-  },
-];
 
 const Product: React.FC = () => {
   const router = useRouter();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await API.get('/product');
+        const filteredProducts = response.data.map((product: any) => ({
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          image: product.image,
+          price: product.price,
+          links: product.links || [],
+        }));
+        setProducts(filteredProducts);
+      } catch (error) {
+        console.error('Gagal mengambil produk:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleNavigate = () => {
     router.push('/product/productList');
   };
 
-  const handleDetail = (id: number) => {
-    router.push(`/product/${id}`);
-  };
+  // const handleDetail = (id: number) => {
+  //   router.push(`/product/${id}`);
+  // };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 bg-white">
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">Our Products</h1>
 
-      {/* Grid 4 kotak */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {products.map((product) => (
           <div
             key={product.id}
-            onClick={() => handleDetail(product.id)}
-            className="cursor-pointer transform skew-x-[-6deg] bg-gray-800 bg-opacity-90 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition duration-300"
+            // onClick={() => handleDetail(product.id)}
+            className="relative group transform skew-x-[-6deg] bg-zinc-900 bg-opacity-90 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition duration-300 cursor-pointer"
           >
             <div className="transform skew-x-[6deg]">
               <img
-                src={product.image}
+                src={`http://localhost:4000${product.image}`}
                 alt={product.name}
-                className="w-full h-40 object-cover"
+                className="w-full h-48 object-cover"
               />
-              <div className="p-4">
-                <h2 className="text-xl font-bold text-white mb-2">{product.name}</h2>
-                <p className="text-gray-300 mb-4">{product.description}</p>
-                <p className="font-semibold text-red-400 text-lg">
-                  Rp {product.price.toLocaleString('id-ID')}
-                </p>
+              <div className="p-4 flex items-center justify-between bg-zinc-900 rounded-xl text-white">
+                <div>
+                  <h2 className="text-xl font-bold mb-1">{product.name}</h2>
+                  <p className="text-gray-300 mb-2">{product.description}</p>
+                </div>
+                <div className="ml-4">
+                  <span className="bg-red-600 text-white text-sm font-bold px-4 py-2 rounded-full shadow">
+                    Rp {product.price.toLocaleString('id-ID')}
+                  </span>
+                </div>
               </div>
             </div>
+
+            {/* Dropdown link muncul saat hover */}
+            {product.links?.length > 0 && (
+              <div
+                className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="relative">
+                  <div className="absolute right-0 mt-2 w-56 bg-[#111] text-sm text-white shadow-xl rounded-md z-10 overflow-hidden border border-red-600">
+                    <div className="px-4 py-2 font-semibold text-red-500 border-b border-red-600 bg-black">
+                      Pilih Toko
+                    </div>
+                    {product.links.map((link) => (
+                      <a
+                        key={link.id}
+                        href={
+                          link.url.startsWith('http') ? link.url : `https://${link.url}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block px-4 py-2 hover:bg-red-700 hover:text-white transition-colors duration-200"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        🔗 Link pembelian
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
 
-      {/* Tombol Other */}
-      <div className="text-center">
+      {/* Tombol Produk Lainnya */}
+      <div className="text-center mt-10">
         <button
           onClick={handleNavigate}
           className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-xl shadow-md transition duration-300"
