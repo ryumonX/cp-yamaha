@@ -1,16 +1,19 @@
-import { 
-  HomeIcon, 
-  CameraIcon, 
-  UserIcon, 
-  ShoppingBagIcon, 
-  CalendarIcon, 
+'use client'
+
+import {
+  HomeIcon,
+  CameraIcon,
+  UserIcon,
+  ShoppingBagIcon,
+  CalendarIcon,
   DocumentTextIcon,
-  ArrowRightOnRectangleIcon 
+  ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline'
 import { usePathname, useRouter } from 'next/navigation'
+import { logout } from '@/utils/authMethod'
 
 const Sidebar = () => {
-  const pathname = usePathname()  // Mendapatkan pathname saat ini
+  const pathname = usePathname()
   const router = useRouter()
 
   const navigation = [
@@ -22,14 +25,21 @@ const Sidebar = () => {
     { name: 'Artikel', href: '/admin/article', icon: DocumentTextIcon, current: pathname === '/admin/article' },
   ]
 
+  const handleLogout = async () => {
+    try {
+      await logout()
+      router.push('/login') // Ganti sesuai path login kamu
+    } catch (err) {
+      console.error('Logout error:', err)
+    }
+  }
+
   return (
     <aside className="w-64 bg-gray-900 border-r border-gray-800 flex flex-col">
-      {/* Logo Section */}
       <div className="flex items-center justify-center py-6 border-b border-gray-800">
         <h1 className="text-xl font-bold text-indigo-400">Admin Dashboard</h1>
       </div>
 
-      {/* Navigation Menu */}
       <nav className="flex-1 px-4 py-8">
         <div className="space-y-2">
           {navigation.map((item) => (
@@ -54,9 +64,11 @@ const Sidebar = () => {
         </div>
       </nav>
 
-      {/* Logout Section */}
       <div className="px-4 py-6 border-t border-gray-800">
-        <button className="w-full flex items-center justify-center px-4 py-3 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors group">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center px-4 py-3 rounded-lg bg-gray-800/50 hover:bg-gray-800 transition-colors group"
+        >
           <ArrowRightOnRectangleIcon className="h-5 w-5 mr-3 text-red-400 group-hover:text-red-300" />
           <span className="text-sm font-medium text-red-400 group-hover:text-red-300">
             Logout

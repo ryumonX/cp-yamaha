@@ -7,7 +7,7 @@ export interface ProductData {
   price: number;
   image?: string;
   imageFile?: File;
-  links?: { id: number; url: string; productId: number }[];  // Use object type for links
+  links?: { id: number; url: string; productId: number }[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -33,7 +33,7 @@ const ProductModal = ({
     description: '',
     price: 0,
     image: '',
-    links: [],  // Pastikan links adalah array kosong sebagai default
+    links: [],
     imageFile: undefined,
   });
 
@@ -41,8 +41,8 @@ const ProductModal = ({
     if (initialData) {
       setFormData({
         ...initialData,
-        links: initialData.links ?? [], // Pastikan links selalu array
-        imageFile: undefined,  // Reset the imageFile to undefined when editing
+        links: initialData.links ?? [],
+        imageFile: undefined,
       });
     } else {
       setFormData({
@@ -51,7 +51,7 @@ const ProductModal = ({
         description: '',
         price: 0,
         image: '',
-        links: [], // Reset ke array kosong
+        links: [],
         imageFile: undefined,
       });
     }
@@ -69,7 +69,7 @@ const ProductModal = ({
 
   const handleLinkChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedLinks = [...(formData.links ?? [])];
-    updatedLinks[index].url = e.target.value; // Update the URL of the specific link
+    updatedLinks[index].url = e.target.value;
     setFormData(prev => ({
       ...prev,
       links: updatedLinks,
@@ -79,7 +79,7 @@ const ProductModal = ({
   const handleAddLink = () => {
     setFormData(prev => ({
       ...prev,
-      links: [...(prev.links ?? []), { id: Date.now(), url: '', productId: prev.id }] // Generate unique id for new link
+      links: [...(prev.links ?? []), { id: Date.now(), url: '', productId: prev.id }],
     }));
   };
 
@@ -94,10 +94,8 @@ const ProductModal = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const previewUrl = URL.createObjectURL(file);
       setFormData(prev => ({
         ...prev,
-        image: previewUrl,
         imageFile: file,
       }));
     }
@@ -105,11 +103,17 @@ const ProductModal = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const formDataWithPrice = {
+
+    const dataToSubmit = {
       ...formData,
       price: parseFloat(formData.price.toString()),
     };
-    onSubmit(formDataWithPrice);
+
+    if (!formData.imageFile) {
+      delete dataToSubmit.imageFile;
+    }
+
+    onSubmit(dataToSubmit);
   };
 
   if (!isOpen) return null;
@@ -222,13 +226,19 @@ const ProductModal = ({
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 required={!isEditMode}
               />
-              {formData.image && (
+              {formData.imageFile ? (
                 <img
-                  src={formData.image}
+                  src={URL.createObjectURL(formData.imageFile)}
                   alt="Preview"
                   className="mt-2 h-32 object-contain rounded"
                 />
-              )}
+              ) : formData.image ? (
+                <img
+                  src={formData.image}
+                  alt="Existing"
+                  className="mt-2 h-32 object-contain rounded"
+                />
+              ) : null}
             </div>
 
             {/* Buttons */}
