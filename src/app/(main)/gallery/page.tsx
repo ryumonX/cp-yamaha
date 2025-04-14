@@ -23,7 +23,6 @@ const Gallery = () => {
 
     return (
         <section className="py-12 px-4 md:px-8 bg-gray-50">
-            {/* Enhanced Title */}
             <div id="gallery" className="scroll-mt-24 mb-12">
                 <div className="flex items-center justify-center mb-6">
                     <div className="flex-1 border-t-2 border-amber-500"></div>
@@ -37,7 +36,6 @@ const Gallery = () => {
                 </p>
             </div>
 
-            {/* Enhanced Grid */}
             <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4">
                 {images.map((img, index) => (
                     <motion.div
@@ -57,7 +55,6 @@ const Gallery = () => {
                 ))}
             </div>
 
-            {/* Enhanced Modal */}
             <AnimatePresence>
                 {selectedImage && (
                     <motion.div

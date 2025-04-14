@@ -55,7 +55,7 @@ const EventModal = ({
       setFormData({
         ...initialData,
         imageFile: '',
-        date: initialData.date.split('T')[0], // format date untuk input type="date"
+        date: initialData.date.split('T')[0], 
       });
     } else {
       setFormData({
@@ -101,7 +101,7 @@ const EventModal = ({
     const dataWithAuthor = {
       ...formData,
       authorId: currentUser.id,
-      image: formData.image ? formData.image : formData.image || '', // Jika tidak ada imageFile, gunakan image lama atau string kosong
+      image: formData.image ? formData.image : formData.image || '', 
     };
 
     if (!isEditMode && !formData.imageFile) {
@@ -209,7 +209,7 @@ const EventModal = ({
                 required={!isEditMode}
               />
 
-              {/* Preview gambar lama */}
+              {/* Preview image */}
               {isEditMode && formData.image && !formData.image.startsWith('blob:') && (
                 <img
                   src={`http://localhost:4000${formData.image}`}
@@ -218,7 +218,7 @@ const EventModal = ({
                 />
               )}
 
-              {/* Preview gambar baru */}
+              {/* Preview image */}
               {formData.image && formData.image.startsWith('blob:') && (
                 <img
                   src={formData.image}

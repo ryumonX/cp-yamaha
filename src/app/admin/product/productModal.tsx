@@ -93,12 +93,11 @@ const ProductModal = ({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setFormData(prev => ({
-        ...prev,
-        imageFile: file,
-      }));
-    }
+    setFormData(prev => ({
+      ...prev,
+      image: file ? URL.createObjectURL(file) : prev.image,
+      imageFile: file || prev.imageFile,
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -107,6 +106,7 @@ const ProductModal = ({
     const dataToSubmit = {
       ...formData,
       price: parseFloat(formData.price.toString()),
+      image: formData.image ? formData.image : formData.image || '', 
     };
 
     if (!formData.imageFile) {
@@ -212,7 +212,6 @@ const ProductModal = ({
               />
             </div>
 
-            {/* Image Upload */}
             <div className="mb-4">
               <label htmlFor="image" className="block text-sm font-bold text-gray-700 mb-1">
                 Upload Image
@@ -226,19 +225,24 @@ const ProductModal = ({
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 required={!isEditMode}
               />
-              {formData.imageFile ? (
+
+              {/* Preview oldo image */}
+              {isEditMode && formData.image && !formData.image.startsWith('blob:') && (
                 <img
-                  src={URL.createObjectURL(formData.imageFile)}
-                  alt="Preview"
-                  className="mt-2 h-32 object-contain rounded"
-                />
-              ) : formData.image ? (
-                <img
-                  src={formData.image}
+                  src={`http://localhost:4000${formData.image}`}
                   alt="Existing"
                   className="mt-2 h-32 object-contain rounded"
                 />
-              ) : null}
+              )}
+
+              {/* Preview image */}
+              {formData.image && formData.image.startsWith('blob:') && (
+                <img
+                  src={formData.image}
+                  alt="Preview"
+                  className="mt-2 h-32 object-contain rounded"
+                />
+              )}
             </div>
 
             {/* Buttons */}

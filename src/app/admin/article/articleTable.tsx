@@ -4,7 +4,7 @@ export interface ArticleData {
   id: number;
   title: string;
   content: string;
-  thumbnail?: string; // <- sudah boleh undefined
+  thumbnail?: string; 
   publishedAt: string;
   authorId: number;
 }

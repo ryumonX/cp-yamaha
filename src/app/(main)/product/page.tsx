@@ -47,9 +47,9 @@ const Product: React.FC = () => {
     router.push('/product/productList');
   };
 
-  // const handleDetail = (id: number) => {
-  //   router.push(`/product/${id}`);
-  // };
+  const handleDetail = (id: number) => {
+    router.push(`/product/${id}`);
+  };
 
   return (
     <div id='product' className="scroll-mt-24 max-w-7xl mx-auto px-4 py-10 bg-white">
@@ -62,7 +62,7 @@ const Product: React.FC = () => {
         {products.map((product) => (
           <div
             key={product.id}
-            // onClick={() => handleDetail(product.id)}
+            onClick={() => handleDetail(product.id)}
             className="relative group transform skew-x-[-6deg] bg-zinc-900 bg-opacity-90 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition duration-300 cursor-pointer"
           >
             <div className="transform skew-x-[6deg]">
@@ -77,7 +77,6 @@ const Product: React.FC = () => {
                     <h2 className="text-xl font-bold mb-1">{product.name}</h2>
                     <p className="text-gray-300 mb-8">{product.description}</p>
                   </div>
-                  {/* Harga di kanan bawah */}
                   <span className="absolute bottom-4 right-4 text-red-500 text-sm font-bold px-4 py-2 ">
                     Rp {product.price.toLocaleString('id-ID')}
                   </span>

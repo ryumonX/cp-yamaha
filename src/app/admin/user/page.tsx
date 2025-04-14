@@ -70,7 +70,6 @@ const UserPage = () => {
         await API.post('/users', createData);
       }
 
-      // Force reload the page to reflect changes
       window.location.reload();
     } catch (err) {
       console.error('Failed to save user:', err);

@@ -72,12 +72,10 @@ const EventPage = () => {
       form.append('location', formData.location);
       form.append('date', formData.date);
   
-      // Jika imageFile ada (artinya gambar baru diupload), tambahkan ke FormData
       if (formData.imageFile) {
         form.append('image', formData.imageFile);
       } else if (formData.image) {
-        // Jika imageFile tidak ada, gunakan gambar lama jika ada
-        form.append('image', formData.image); // Pastikan image sudah berupa URL atau path yang benar
+        form.append('image', formData.image); 
       } else {
         alert('Image is required!');
         return;

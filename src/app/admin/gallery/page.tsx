@@ -77,7 +77,6 @@ const GalleryPage = () => {
         });
       }
 
-      // Hard reload after successful submit
       window.location.reload();
     } catch (err) {
       console.error('Failed to save gallery:', err);

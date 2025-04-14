@@ -149,7 +149,6 @@ export default function EventDetail() {
 
         {/* Sidebar */}
         <div className="space-y-8">
-          {/* Contact Card */}
           <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
             <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
               <span className="bg-blue-100 w-10 h-10 rounded-lg flex items-center justify-center mr-3">

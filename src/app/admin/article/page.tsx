@@ -11,7 +11,7 @@ export interface ArticleData {
   id: number;
   title: string;
   content: string;
-  thumbnail?: string; // <- sudah boleh undefined
+  thumbnail?: string; 
   thumbnailFile?: any;
   publishedAt: string;
   authorId: number;
@@ -60,7 +60,7 @@ const ArticlePage = () => {
   };
 
   const handleSubmit = async (formData: ArticleData) => {
-    if (!formData.title || !formData.thumbnailFile) {
+    if (!formData.title || (!formData.thumbnailFile && !formData.thumbnail)) {
       alert('Title and thumbnail are required!');
       return;
     }
@@ -70,18 +70,26 @@ const ArticlePage = () => {
       form.append('title', formData.title);
       form.append('content', formData.content);
       form.append('authorId', String(formData.authorId));
-      form.append('thumbnail', formData.thumbnailFile);
+
+      if (formData.thumbnailFile) {
+        form.append('thumbnail', formData.thumbnailFile);
+      } else if (formData.thumbnail) {
+        form.append('thumbnail', formData.thumbnail);
+      } else {
+        alert('Thumbnail is required!');
+        return;
+      }
 
       if (isEditMode && currentArticle) {
         await API.put(`/article/${currentArticle.id}`, form, {
           headers: {
-            'Content-Type': 'multipart/form-data', // Optional, can be omitted
+            'Content-Type': 'multipart/form-data',
           },
         });
       } else {
         await API.post('/article', form, {
           headers: {
-            'Content-Type': 'multipart/form-data', // Optional, can be omitted
+            'Content-Type': 'multipart/form-data',
           },
         });
       }
@@ -94,11 +102,12 @@ const ArticlePage = () => {
     }
   };
 
+
   return (
     <div className="flex min-h-screen bg-gray-100">
-    <Sidebar />
+      <Sidebar />
 
-    <div className="flex-1 p-6 max-w-screen-xl mx-auto">
+      <div className="flex-1 p-6 max-w-screen-xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">Article Management</h1>

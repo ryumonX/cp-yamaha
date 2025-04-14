@@ -54,7 +54,7 @@ const ProductPage = () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await API.delete(`/product/${id}`);
-        
+
         window.location.reload(); 
       } catch (err) {
         console.error('Failed to delete product:', err);
@@ -63,22 +63,30 @@ const ProductPage = () => {
   };
 
   const handleSubmit = async (formData: ProductData) => {
-    if (!formData.name || !formData.imageFile || !formData.links || formData.links.length === 0) {
+    if (!formData.name || !formData.links || formData.links.length === 0) {
       alert('Name, image, and links are required!');
       return;
     }
-
+  
     try {
       const form = new FormData();
       form.append('name', formData.name);
       form.append('description', formData.description);
       form.append('price', formData.price.toString());
-      form.append('image', formData.imageFile);
-
+  
+      if (formData.imageFile) {
+        form.append('image', formData.imageFile);
+      } else if (formData.image) {
+        form.append('image', formData.image);
+      } else {
+        alert('Image is required!');
+        return;
+      }
+  
       formData.links.forEach((link) => {
         form.append('links[]', link.url);
       });
-
+  
       if (isEditMode && currentProduct) {
         await API.put(`/product/${currentProduct.id}`, form, {
           headers: {
@@ -92,13 +100,14 @@ const ProductPage = () => {
           },
         });
       }
-
+  
       window.location.reload(); 
     } catch (err) {
       console.error('Failed to save product:', err);
       alert('Something went wrong. Please try again later.');
     }
   };
+  
 
   return (
     <div className="flex min-h-screen bg-gray-100">

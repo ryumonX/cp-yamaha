@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import API from '@/utils/axiosClient';
 import { useRouter } from 'next/navigation';
-import './ArticleDetail.css';
+
 
 
 interface Article {

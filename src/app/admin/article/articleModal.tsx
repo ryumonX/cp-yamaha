@@ -148,9 +148,8 @@ const ArticleModal = ({
               />
             </div>
 
-            {/* Thumbnail Upload */}
             <div className="mb-4">
-              <label htmlFor="thumbnail" className="block text-sm font-bold text-gray-700 mb-1">
+            <label htmlFor="thumbnail" className="block text-sm font-bold text-gray-700 mb-1">
                 Upload Thumbnail
               </label>
               <input
@@ -162,7 +161,16 @@ const ArticleModal = ({
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 required={!isEditMode}
               />
-              {formData.thumbnail && (
+
+              {isEditMode && formData.thumbnail && !formData.thumbnail.startsWith('blob:') && (
+                <img
+                  src={`http://localhost:4000${formData.thumbnail}`}
+                  alt="Existing"
+                  className="mt-2 h-32 object-contain rounded"
+                />
+              )}
+
+              {formData.thumbnail && formData.thumbnail.startsWith('blob:') && (
                 <img
                   src={formData.thumbnail}
                   alt="Preview"
