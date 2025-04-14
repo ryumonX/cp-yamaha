@@ -11,6 +11,8 @@ import {
   GlobeAltIcon,
   ArrowRightIcon
 } from '@heroicons/react/24/outline';
+import Navbar from '@/components/navbar';
+import Footer from '@/components/footer';
 
 type Event = {
   id: number;
@@ -71,6 +73,8 @@ export default function EventDetail() {
   });
 
   return (
+    <div>
+    <Navbar />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <button
         onClick={() => router.back()}
@@ -213,6 +217,8 @@ export default function EventDetail() {
           </div>
         </div>
       </div>
+    </div>
+    <Footer />
     </div>
   );
 }
