@@ -25,7 +25,7 @@ const BlogPage: React.FC = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const res = await API.get('/article'); // ganti ini ke endpoint kamu yang sebenarnya
+        const res = await API.get('/article');
         setArticles(res.data);
       } catch (error) {
         console.error('Gagal mengambil artikel:', error);
@@ -35,7 +35,6 @@ const BlogPage: React.FC = () => {
     fetchArticles();
   }, []);
 
-  // Pagination logic
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
   const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
@@ -45,18 +44,26 @@ const BlogPage: React.FC = () => {
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
     .slice(0, 3);
 
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
       <header className="bg-black py-16">
+        <button
+          onClick={() => router.back()}
+          className="mb-8 inline-flex items-center text-blue-300 hover:text-white transition-all font-semibold uppercase text-sm tracking-wide group"
+        >
+          <svg className="w-5 h-5 ml-10 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Homepage
+        </button>
+
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4 text-red-600">Blog & Artikel</h1>
           <p className="text-xl text-white">Temukan wawasan terbaru seputar perkembangan perusahaan dan industri</p>
         </div>
       </header>
-
 
       <main className="container mx-auto px-4 py-12">
         <div className="flex flex-col lg:flex-row gap-8">
@@ -68,8 +75,7 @@ const BlogPage: React.FC = () => {
                   key={article.id}
                   className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
                 >
-                  <img src={`http://localhost:4000${article.thumbnail}`}
-                    alt={article.title} className="w-full h-48 object-cover" />
+                  <img src={`http://localhost:4000${article.thumbnail}`} alt={article.title} className="w-full h-48 object-cover" />
                   <div className="p-6">
                     <h2 className="text-2xl font-bold mb-2">{article.title}</h2>
                     <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
@@ -95,7 +101,7 @@ const BlogPage: React.FC = () => {
                 <button
                   onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+                  className="px-4 py-2 pl-6 bg-white rounded hover:bg-red-300 disabled:opacity-50"
                 >
                   ← Sebelumnya
                 </button>
@@ -109,6 +115,19 @@ const BlogPage: React.FC = () => {
                 </button>
               </div>
             )}
+
+            {/* Back Button Tambahan */}
+            <div className="mt-12 text-center">
+              <button
+                onClick={() => router.back()}
+                className="inline-flex items-center text-blue-500 hover:text-blue-700 font-semibold transition-all"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Kembali ke Halaman Sebelumnya
+              </button>
+            </div>
           </section>
 
           {/* Sidebar */}
@@ -146,6 +165,15 @@ const BlogPage: React.FC = () => {
                 </ul>
               </div>
 
+              {/* Back Button di Sidebar */}
+              <div className="mt-6">
+                <button
+                  onClick={() => router.back()}
+                  className="w-full inline-flex items-center justify-center text-sm text-blue-500 hover:text-blue-700 font-medium"
+                >
+                  ← Kembali
+                </button>
+              </div>
             </div>
           </aside>
         </div>
