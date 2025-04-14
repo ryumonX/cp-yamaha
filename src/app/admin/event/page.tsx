@@ -60,19 +60,29 @@ const EventPage = () => {
   };
 
   const handleSubmit = async (formData: eventData) => {
-    if (!formData.title || !formData.imageFile) {
-      alert('Title and image are required!');
+    if (!formData.title) {
+      alert('Title is required!');
       return;
     }
-
+  
     try {
       const form = new FormData();
       form.append('title', formData.title);
       form.append('description', formData.description);
       form.append('location', formData.location);
       form.append('date', formData.date);
-      form.append('image', formData.imageFile);
-
+  
+      // Jika imageFile ada (artinya gambar baru diupload), tambahkan ke FormData
+      if (formData.imageFile) {
+        form.append('image', formData.imageFile);
+      } else if (formData.image) {
+        // Jika imageFile tidak ada, gunakan gambar lama jika ada
+        form.append('image', formData.image); // Pastikan image sudah berupa URL atau path yang benar
+      } else {
+        alert('Image is required!');
+        return;
+      }
+  
       if (isEditMode && currentEvent) {
         await API.put(`/event/${currentEvent.id}`, form, {
           headers: {
@@ -86,13 +96,14 @@ const EventPage = () => {
           }
         });
       }
-
+  
       window.location.reload();
     } catch (err) {
       console.error('Failed to save event:', err);
       alert('Something went wrong. Please try again later.');
     }
   };
+  
 
   return (
     <div className="flex min-h-screen bg-gray-100">

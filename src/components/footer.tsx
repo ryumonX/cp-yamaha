@@ -7,23 +7,23 @@ const Footer: React.FC = () => {
         {/* Konten utama: Logo, Deskripsi, Link, dan Social Icons */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex flex-col items-center md:items-start">
-            <h2 className="text-2xl font-bold">Company Name</h2>
+            <h2 className="text-2xl font-bold">Yamaha Riders Club</h2>
             <p className="text-sm mt-2 text-center md:text-left text-red-400">
               Empowering your business with innovative solutions.
             </p>
           </div>
           <div className="flex flex-col items-center gap-4">
             <div className="flex gap-6">
-              <a href="#" className="hover:text-red-300 transition text-sm" aria-label="Home">
+              <a href="#home" className="hover:text-red-300 transition text-sm" aria-label="Home">
                 Home
               </a>
-              <a href="#" className="hover:text-red-300 transition text-sm" aria-label="Products">
+              <a href="#product" className="hover:text-red-300 transition text-sm" aria-label="Products">
                 Products
               </a>
-              <a href="#" className="hover:text-red-300 transition text-sm" aria-label="About">
+              <a href="#about-us" className="hover:text-red-300 transition text-sm" aria-label="About">
                 About
               </a>
-              <a href="#" className="hover:text-red-300 transition text-sm" aria-label="Contact">
+              <a href="#contact" className="hover:text-red-300 transition text-sm" aria-label="Contact">
                 Contact
               </a>
             </div>
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
         {/* Section bawah */}
         <div className="border-t border-gray-700 mt-8 pt-6 text-center">
           <p className="text-sm text-red-400">
-            &copy; {new Date().getFullYear()} Company Name. All rights reserved.
+            &copy; {new Date().getFullYear()} Yamaha Riders. All rights reserved.
           </p>
         </div>
       </div>

@@ -52,8 +52,11 @@ const Product: React.FC = () => {
   // };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 bg-white">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">Our Products</h1>
+    <div id='product' className="scroll-mt-24 max-w-7xl mx-auto px-4 py-10 bg-white">
+      <h1 className="text-4xl md:text-5xl font-bold text-black mb-16 text-center relative pb-4">
+          Product Kami
+          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-red-600 rounded-full"></span>
+        </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {products.map((product) => (

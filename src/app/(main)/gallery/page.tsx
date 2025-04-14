@@ -24,7 +24,7 @@ const Gallery = () => {
     return (
         <section className="py-12 px-4 md:px-8 bg-gray-50">
             {/* Enhanced Title */}
-            <div id="gallery" className="mb-12">
+            <div id="gallery" className="scroll-mt-24 mb-12">
                 <div className="flex items-center justify-center mb-6">
                     <div className="flex-1 border-t-2 border-amber-500"></div>
                     <h1 className="text-4xl md:text-5xl font-bold text-center px-6 text-gray-800">

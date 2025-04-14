@@ -54,6 +54,8 @@ const ProductPage = () => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await API.delete(`/product/${id}`);
+        
+        window.location.reload(); 
       } catch (err) {
         console.error('Failed to delete product:', err);
       }
@@ -91,7 +93,7 @@ const ProductPage = () => {
         });
       }
 
-      window.location.reload(); // Hard refresh after save
+      window.location.reload(); 
     } catch (err) {
       console.error('Failed to save product:', err);
       alert('Something went wrong. Please try again later.');

@@ -18,7 +18,7 @@ const clients: string[] = [
 
 const Ourclient: React.FC = () => {
   return (
-    <section id="our-client" className="py-16 px-4 text-center bg-black">
+    <section id="our-client" className="scroll-mt-24 py-16 px-4 text-center bg-black">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold mb-12 text-white relative inline-block">
           KLIEN KAMI

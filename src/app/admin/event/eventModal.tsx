@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getCurrentUser } from '@/utils/authMethod';
+
 export interface eventData {
   id: number;
   title: string;
@@ -54,6 +55,7 @@ const EventModal = ({
       setFormData({
         ...initialData,
         imageFile: '',
+        date: initialData.date.split('T')[0], // format date untuk input type="date"
       });
     } else {
       setFormData({
@@ -81,14 +83,11 @@ const EventModal = ({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const previewUrl = URL.createObjectURL(file);
-      setFormData(prev => ({
-        ...prev,
-        image: previewUrl,
-        imageFile: file,
-      }));
-    }
+    setFormData(prev => ({
+      ...prev,
+      image: file ? URL.createObjectURL(file) : prev.image,
+      imageFile: file || prev.imageFile,
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -102,7 +101,13 @@ const EventModal = ({
     const dataWithAuthor = {
       ...formData,
       authorId: currentUser.id,
+      image: formData.image ? formData.image : formData.image || '', // Jika tidak ada imageFile, gunakan image lama atau string kosong
     };
+
+    if (!isEditMode && !formData.imageFile) {
+      alert('Image is required!');
+      return;
+    }
 
     onSubmit(dataWithAuthor);
   };
@@ -203,7 +208,18 @@ const EventModal = ({
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 required={!isEditMode}
               />
-              {formData.image && (
+
+              {/* Preview gambar lama */}
+              {isEditMode && formData.image && !formData.image.startsWith('blob:') && (
+                <img
+                  src={`http://localhost:4000${formData.image}`}
+                  alt="Existing"
+                  className="mt-2 h-32 object-contain rounded"
+                />
+              )}
+
+              {/* Preview gambar baru */}
+              {formData.image && formData.image.startsWith('blob:') && (
                 <img
                   src={formData.image}
                   alt="Preview"

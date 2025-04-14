@@ -14,7 +14,7 @@ const VisiMisi: React.FC = () => {
   return (
     <section
       id="visi-misi"
-      className="bg-gray-100 min-h-screen py-10 px-6 sm:px-12 lg:px-24"
+      className="scroll-mt-24 bg-gray-100 min-h-screen py-10 px-6 sm:px-12 lg:px-24"
     >
       <div className="max-w-7xl mx-auto">
         {/* Visi */}
@@ -27,18 +27,19 @@ const VisiMisi: React.FC = () => {
             />
           </div>
           <div className="lg:w-1/2 text-center lg:text-left">
-            <h2 className="text-3xl font-bold text-red-600 mb-4">Visi Kami</h2>
+            <h2 className="text-4xl font-bold text-red-600 mb-4">Visi Kami</h2>
             <p className="text-lg text-gray-800 leading-relaxed">
-              Menjadi komunitas motor Yamaha yang solid, berjiwa sosial, serta menjadi contoh dalam keselamatan dan etika berkendara di Indonesia.
+              "Menjadi komunitas Yamaha Riders yang solid, tertib, dan inspiratif dalam berkendara, serta aktif dalam kegiatan sosial dan persaudaraan antar bikers di seluruh Indonesia."
             </p>
           </div>
         </div>
 
         {/* Misi */}
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-red-600 mb-10 text-center">
-            Misi Kami
-          </h2>
+        <h1 className="text-4xl md:text-5xl font-bold text-red-600 mb-16 text-center relative pb-4">
+          Misi kami
+          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-red-600 rounded-full"></span>
+        </h1>
           <div className="flex flex-wrap gap-6 justify-center">
             {misiList.map((misi, index) => (
               <motion.div

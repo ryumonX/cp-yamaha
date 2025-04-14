@@ -18,8 +18,8 @@ export default function Home() {
       <Navbar />
       <main>
         <Jumbotron />
-        
-        <FadeUpSection>
+          
+        <FadeUpSection >
           <AboutUs />
         </FadeUpSection>
 
